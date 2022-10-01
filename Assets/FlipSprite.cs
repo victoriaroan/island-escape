@@ -16,8 +16,6 @@ public class FlipSprite : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         var spriteModule = animator.GetComponent<SpriteModule>();
-        Debug.Log(animator.GetFloat("Horizontal"));
-
         spriteModule.spriteRenderer.flipX = (int)animator.GetFloat("Horizontal") > 0;
     }
 

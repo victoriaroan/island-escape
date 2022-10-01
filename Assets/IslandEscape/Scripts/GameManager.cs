@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using IslandEscape.Entities;
+using IslandEscape.Map;
 using IslandEscape.UI;
 
 public class GameManager : MonoBehaviour
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public UIManager ui;
     public GameObject terrain;
+    public WaterManager waterManager;
     public Player player;
 
     // When the game was started
