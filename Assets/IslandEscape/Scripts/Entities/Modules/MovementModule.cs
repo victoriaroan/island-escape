@@ -12,8 +12,8 @@ namespace IslandEscape.Entities.Modules
 
         // TODO collision/blocking layer?
 
-        public float walkSpeed = 2f;
-        public float runSpeed = 4f;
+        public float walkSpeed = 3f;
+        public float runSpeed = 5f;
 
         protected const float minMoveDistance = 0.001f;
         protected const float shellRadius = 0.01f;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using IslandEscape.Entities;
 using IslandEscape.UI;
 
 public class GameManager : MonoBehaviour
@@ -11,11 +12,11 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public UIManager ui;
     public GameObject terrain;
+    public Player player;
 
     // When the game was started
     // TODO: actually track elapsed time instead of relying on timeSinceLevelLoad - startTime
     public float startTime;
-
 
     // Whether or not the game is paused
     public bool gamePaused = true;
