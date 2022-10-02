@@ -69,7 +69,6 @@ namespace IslandEscape.UI
         /// <returns></returns>
         private GameObject TooltipInit(string text)
         {
-            Debug.Log("Init Tooltip: " + text);
             GameObject tooltip = (GameObject)Instantiate(prefabMap[UICompKey.Tooltip]);
             tooltip.GetComponentInChildren<TextMeshProUGUI>().text = text;
             return tooltip;
@@ -80,7 +79,7 @@ namespace IslandEscape.UI
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public GameObject TooltipAdd(string text)
+        public GameObject ToolTipAdd(string text)
         {
             GameObject tooltip = TooltipInit(text);
             return tooltip;

@@ -12,6 +12,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: Driftwood
       objectReference: {fileID: 0}
+    - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+      propertyPath: delay
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+      propertyPath: limit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+      propertyPath: ActionCompleted.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+      propertyPath: ActionCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 869730586}
+    - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+      propertyPath: ActionCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+      propertyPath: ActionCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Gather
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+      propertyPath: ActionCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: IslandEscape.Entities.Modules.GatherModule, GameAssembly
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+      propertyPath: ActionCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058677, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_Size.x
       value: 2
@@ -50,19 +82,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.45
+      value: 7.3169746
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.94
+      value: -2.9626226
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.06496337
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -70,15 +102,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058679, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -95,3 +127,23 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+--- !u!1 &5605476899485442094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8549472365812058673, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
+  m_PrefabInstance: {fileID: 4282769707716831775}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &869730586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605476899485442094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d4c2c80806ad3342bf0b5c63cd2f17b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueprint: {fileID: 11400000, guid: f03d7729f98b1984eab994d40b08cd2d, type: 2}
+  probability: 0.5
+  failureMsg: The wood is too rotted

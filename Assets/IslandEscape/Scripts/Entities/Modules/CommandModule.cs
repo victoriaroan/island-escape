@@ -64,7 +64,6 @@ namespace IslandEscape.Entities.Modules
             {
                 Debug.Log("Warning: no active CommandInputModule", gameObject);
             }
-            Debug.Log(inputModules);
         }
 
         public override void Start()

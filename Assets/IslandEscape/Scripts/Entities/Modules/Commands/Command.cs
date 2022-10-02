@@ -22,7 +22,7 @@ namespace IslandEscape.Entities.Modules.Commands
 
                 if (parent != null)
                 {
-                    Debug.Log("old parent" + parent.ToString());
+                    // Debug.Log("old parent" + parent.ToString());
                     ((IBlockCommand)parent).RemoveCommand(this);
                 }
 
@@ -30,7 +30,7 @@ namespace IslandEscape.Entities.Modules.Commands
 
                 if (parent != null)
                 {
-                    Debug.Log("new parent" + parent.ToString());
+                    // Debug.Log("new parent" + parent.ToString());
                     ((IBlockCommand)parent).AddCommand(this);
                 }
 

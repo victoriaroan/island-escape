@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 using IslandEscape.UI;
 
@@ -13,9 +14,29 @@ namespace IslandEscape.Entities.Modules
 
         public GameObject canvas = null;
 
+        private GameObject tooltip = null;
+        private float tooltipSet = 0f;
+        private float clearTooltip = -1f;
+        private string replacementTip = null;
+
         public virtual void Awake()
         {
             animator = GetComponent<Animator>();
+        }
+
+        public virtual void Update()
+        {
+            if (clearTooltip > 0f && Time.timeSinceLevelLoad - tooltipSet >= clearTooltip)
+            {
+                if (replacementTip != null)
+                    CanvasSetTooltip(replacementTip);
+                else
+                    Destroy(tooltip);
+
+                tooltipSet = 0f;
+                clearTooltip = -1f;
+                replacementTip = null;
+            }
         }
 
         public void SetAnimatorParams(Vector2 movement)
@@ -33,7 +54,6 @@ namespace IslandEscape.Entities.Modules
         /// </summary>
         private void CanvasInit()
         {
-            Debug.Log("init canvas");
             canvas = (GameObject)Instantiate(GameManager.instance.ui.prefabMap[UICompKey.EntityUICanvas]);
             canvas.transform.SetParent(transform, false);
             canvas.transform.localPosition = new Vector3(0f, 0.5f, 0f);
@@ -44,7 +64,6 @@ namespace IslandEscape.Entities.Modules
         /// </summary>
         public void CanvasShow()
         {
-            Debug.Log("show canvas");
             if (canvas == null)
             {
                 CanvasInit();
@@ -57,8 +76,50 @@ namespace IslandEscape.Entities.Modules
         /// <param name="display"></param>
         public void CanvasSet(GameObject display)
         {
+            // TODO: things other than tooltips
             CanvasShow();
             display.transform.SetParent(canvas.transform, false);
+            tooltip = display;
+        }
+
+        /// <summary>
+        /// Set the text of the tooltip
+        /// </summary>
+        /// <param name="tip"></param>
+        public void CanvasSetTooltip(string tip)
+        {
+            if (tooltip == null)
+            {
+                tooltip = GameManager.instance.ui.ToolTipAdd(tip);
+                CanvasSet(tooltip);
+            }
+            else
+                tooltip.GetComponentInChildren<TextMeshProUGUI>().text = tip;
+
+        }
+
+        /// <summary>
+        /// Set the text of the tooltip to a temporary value, with no replacement value
+        /// </summary>
+        /// <param name="tip"></param>
+        public void CanvasSetTempTooltip(string tip, float clearAfter)
+        {
+            CanvasSetTooltip(tip);
+            tooltipSet = Time.timeSinceLevelLoad;
+            clearTooltip = clearAfter;
+            replacementTip = null;
+        }
+
+        /// <summary>
+        /// Set the text of the tooltip to a temporary value, with a replacement value
+        /// </summary>
+        /// <param name="tip"></param>
+        public void CanvasSetTempTooltip(string tip, float clearAfter, string replace)
+        {
+            CanvasSetTooltip(tip);
+            tooltipSet = Time.timeSinceLevelLoad;
+            clearTooltip = clearAfter;
+            replacementTip = replace;
         }
 
         /// <summary>
@@ -69,6 +130,7 @@ namespace IslandEscape.Entities.Modules
             if (canvas != null)
             {
                 Destroy(canvas);
+                tooltip = null;
             }
         }
     }

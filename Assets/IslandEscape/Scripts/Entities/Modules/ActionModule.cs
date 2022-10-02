@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,21 +14,20 @@ namespace IslandEscape.Entities.Modules
         public ActionEvent AgentExited { get; } = new ActionEvent();
         public ActionEvent ActionStarted { get; } = new ActionEvent();
         public ActionEvent ActionInterrupted { get; } = new ActionEvent();
-        public ActionEvent ActionCompleted { get; } = new ActionEvent();
+        public ActionEvent ActionCompleted = new ActionEvent();
         public ActionEvent CooldownRefreshed { get; } = new ActionEvent();
         // HA got it. need to make it not a property IE just `public ActionEvent CooldownRefreshed` - not sure what implications that has
 
         public float delay;
         public float cooldown;
         public int limit;
-        // TODO: might just be able to use the ActionCompleted event above if we can figure out how to get that showing in the inspector
-        public UnityEvent onActionCompleted;
 
         public float interactionStarted = 0f;
         public AgentModule interactingAgent;
         public int timesCompleted;
 
         // TODO: add cooldown to available
+        public string Tip { get => (delay > 0 ? "hold" : "press") + " F"; }
         public bool Available { get { return limit == 0 || timesCompleted < limit; } }
         public float InteractionTime
         {
@@ -65,6 +65,12 @@ namespace IslandEscape.Entities.Modules
             // if (Available && interactionStarted > 0f && (delay == 0f || InteractionTime >= delay)) {
             //     FinishAction();
             // }
+
+            if (interactionStarted > 0f)
+            {
+                var tip = (int)Math.Floor(InteractionTime) + "s" + (ActionReady ? " READY" : "");
+                renderModule.CanvasSetTooltip(tip);
+            }
         }
 
         public void OnTriggerEnter2D(Collider2D other)
@@ -73,7 +79,6 @@ namespace IslandEscape.Entities.Modules
             // TODO: handle overlapping trigger hitboxes
             if (Available)
             {
-                Debug.Log("Trigger enter", other.gameObject);
                 AgentModule agent = other.GetComponent<AgentModule>();
                 if (agent != null)
                 {
@@ -82,15 +87,13 @@ namespace IslandEscape.Entities.Modules
                     // TODO: show hint to press F
                     agent.availableAction = this;
                     collision = agent;
-                    var tip = (delay > 0 ? "hold" : "press") + " F";
-                    GameManager.instance.ui.ToolTipAdd(tip, Entity);
+                    GameManager.instance.ui.ToolTipAdd(Tip, Entity);
                 }
             }
         }
 
         public void OnTriggerExit2D(Collider2D other)
         {
-            Debug.Log("Trigger exit", other.gameObject);
             AgentModule agent = other.GetComponent<AgentModule>();
             if (agent != null)
             {
@@ -142,10 +145,17 @@ namespace IslandEscape.Entities.Modules
         {
             if (Available && ActionReady)
             {
+                if (!Available)
+                    renderModule.CanvasHide();
+                else
+                    renderModule.CanvasSetTooltip(Tip);
+
+                timesCompleted++;
+                ActionCompleted?.Invoke(new ActionEventArgs(this, interactingAgent));
+
                 interactionStarted = 0f;
                 interactingAgent = null;
-                onActionCompleted.Invoke();
-                ActionCompleted?.Invoke(new ActionEventArgs(this, interactingAgent));
+
                 return true;
             }
 
