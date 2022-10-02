@@ -70,7 +70,7 @@ namespace IslandEscape.Map
                 }
             }
 
-            // TODO: deal with player being in a flooding tile.
+            // TODO: deal with player being in a flooding tile. (oo maybe could use OnTriggerEnter2D)
 
             lastRise = Time.timeSinceLevelLoad;
             WaterRose?.Invoke(new TerrainEventArgs(this, flood));

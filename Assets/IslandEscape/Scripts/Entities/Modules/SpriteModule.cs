@@ -4,25 +4,30 @@ using UnityEngine;
 
 namespace IslandEscape.Entities.Modules
 {
-    public class SpriteModule : EntityModule
+    public class SpriteModule : RenderModule
     {
-        public Rigidbody2D rb;
-        public Animator animator;
         public SpriteRenderer spriteRenderer;
+        public override Renderer Renderer { get { return spriteRenderer; } }
 
-        protected virtual void Awake()
+        public Sprite[] sprites;
+
+        public override void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
-            animator = GetComponent<Animator>();
+            base.Awake();
             spriteRenderer = GetComponent<SpriteRenderer>();
+
+            if (sprites.Length == 1)
+            {
+                spriteRenderer.sprite = sprites[0];
+            }
+            else if (sprites.Length > 1)
+            {
+                spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
+            }
         }
 
-        public void SetAnimatorParams(Vector2 movement)
-        {
-            animator.SetFloat("Horizontal", movement.x);
-            animator.SetFloat("Vertical", movement.y);
-            animator.SetFloat("Magnitude", movement.magnitude);
-        }
+        // TODO: handle sprite order in sorting layer when player is near
+        // TODO: handle collider(s) for things like trees (and the player, for that matter) where the base should be a collision but the top is just a trigger.
     }
 }
 

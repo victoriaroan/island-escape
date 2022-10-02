@@ -21,9 +21,7 @@ namespace IslandEscape.Entities.Modules.Commands
 
         public static new bool Available(Entity entity)
         {
-            if (entity.GetComponent<MovementModule>() == null)
-                return false;
-            return true;
+            return entity.HasModule<MovementModule>();
         }
 
         public override bool Capable()
@@ -38,6 +36,7 @@ namespace IslandEscape.Entities.Modules.Commands
 
         public override bool Check()
         {
+            // TODO: new type of command/better way of requiring a certain condition remains true and interrupting command otherwise?
             if (movement.x == 0 && movement.y == 0)
             {
                 return true;

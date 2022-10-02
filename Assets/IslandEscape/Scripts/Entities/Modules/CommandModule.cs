@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
+using IslandEscape.Entities.Events;
 using IslandEscape.Entities.Modules.Commands;
 
 namespace IslandEscape.Entities.Modules
@@ -26,11 +27,11 @@ namespace IslandEscape.Entities.Modules
         public static IEnumerable<Type> AllCommands = null;
 
         // TODO: how to deal with commands failing?
-        public UnityEvent<CommandEventArgs> CommandQueued { get; } = new UnityEvent<CommandEventArgs>();
-        public UnityEvent<CommandEventArgs> CommandStarted { get; } = new UnityEvent<CommandEventArgs>();
-        public UnityEvent<CommandEventArgs> CommandInterrupted { get; } = new UnityEvent<CommandEventArgs>();
-        public UnityEvent<CommandEventArgs> CommandCompleted { get; } = new UnityEvent<CommandEventArgs>();
-        public UnityEvent<CommandEventArgs> CommandFailed { get; } = new UnityEvent<CommandEventArgs>();
+        public CommandEvent CommandQueued { get; } = new CommandEvent();
+        public CommandEvent CommandStarted { get; } = new CommandEvent();
+        public CommandEvent CommandInterrupted { get; } = new CommandEvent();
+        public CommandEvent CommandCompleted { get; } = new CommandEvent();
+        public CommandEvent CommandFailed { get; } = new CommandEvent();
 
         private Queue<Command> commandQueue;
 
@@ -76,6 +77,14 @@ namespace IslandEscape.Entities.Modules
         {
 
             // if a command is currently in progress, check completion
+            /*
+             TODO: interruptable command where command requires a condition remains true otherwise it gets interrupted.
+                   could have a FailOnInterrupt flag (or InterruptOnFail? or something third type of term for when the
+                   condition fails) so some commands (like movement) could just complete when the condition turns false
+                   and other commands (like interact) could fail. Maybe an interface (IInterruptableCommand)?
+             */
+            // TODO: new type of command/better way to do instant commands?
+            // TODO: background type commands? things that can be done while also doing other commands? like movement
             if (currentCommand != null && currentCommand.Check())
             {
                 CompleteCurrentCommand();
@@ -195,8 +204,18 @@ namespace IslandEscape.Entities.Modules
             if (commandQueue.Count > 0)
             {
                 currentCommand = commandQueue.Dequeue();
-                currentCommand.Execute();
-                CommandStarted?.Invoke(new CommandEventArgs(Entity, currentCommand));
+
+                if (currentCommand.Capable())
+                {
+                    currentCommand.Execute();
+                    CommandStarted?.Invoke(new CommandEventArgs(Entity, currentCommand));
+                }
+                else
+                {
+                    CommandFailed?.Invoke(new CommandEventArgs(Entity, currentCommand));
+                    // clear current command so next one can run
+                    currentCommand = null;
+                }
             }
         }
 
@@ -214,6 +233,13 @@ namespace IslandEscape.Entities.Modules
                 // clear current command so next one can run
                 currentCommand = null;
             }
+        }
+
+        public void InterruptCurrentCommand()
+        {
+            CommandInterrupted?.Invoke(new CommandEventArgs(Entity, currentCommand));
+            // clear current command so next one can run
+            currentCommand = null;
         }
 
         public CommandInputModule GetCurrentInputModule()

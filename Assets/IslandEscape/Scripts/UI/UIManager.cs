@@ -4,16 +4,37 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+using IslandEscape.Entities;
+using IslandEscape.Entities.Modules;
+
 namespace IslandEscape.UI
 {
+    public enum UICompKey
+    {
+        Tooltip,
+        EntityUICanvas,
+    }
+
+    [Serializable]
+    public struct KeyedPrefab
+    {
+        public UICompKey key;
+        public GameObject prefab;
+    }
+
     public class UIManager : MonoBehaviour
     {
         public static UIManager instance = null;
 
+        public KeyedPrefab[] prefabs;
+        public Dictionary<UICompKey, GameObject> prefabMap;
+
+        // existing UI components
         public TextMeshProUGUI clock;
         public TextMeshProUGUI timer;
+        public GameObject tooltipBar;
 
-        void Awake()
+        public void Awake()
         {
             if (instance == null)
                 instance = this;
@@ -23,13 +44,68 @@ namespace IslandEscape.UI
             DontDestroyOnLoad(gameObject);
         }
 
-        void Update()
+        public void Start()
+        {
+            prefabMap = new Dictionary<UICompKey, GameObject>();
+            foreach (KeyedPrefab prefab in prefabs)
+            {
+                prefabMap.Add(prefab.key, prefab.prefab);
+            }
+        }
+
+        public void Update()
         {
             if (!GameManager.instance.gamePaused)
             {
                 UpdateClock();
                 UpdateTimer();
             }
+        }
+
+        /// <summary>
+        /// Base tooltip initialization.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private GameObject TooltipInit(string text)
+        {
+            Debug.Log("Init Tooltip: " + text);
+            GameObject tooltip = (GameObject)Instantiate(prefabMap[UICompKey.Tooltip]);
+            tooltip.GetComponentInChildren<TextMeshProUGUI>().text = text;
+            return tooltip;
+        }
+
+        /// <summary>
+        /// Adds a tooltip to the tooltip bar at the bottom of the screen.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public GameObject TooltipAdd(string text)
+        {
+            GameObject tooltip = TooltipInit(text);
+            return tooltip;
+        }
+
+        /// <summary>
+        /// Adds a tooltip above the target entity's position.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public GameObject ToolTipAdd(string text, Entity target)
+        {
+            GameObject tooltip = TooltipInit(text);
+            target.GetComponent<RenderModule>().CanvasSet(tooltip);
+            return tooltip;
+        }
+
+        /// <summary>
+        /// Destroy the given tooltip.
+        /// </summary>
+        /// <param name="tooltip"></param>
+        public void ToolTipRemove(GameObject tooltip)
+        {
+
         }
 
         private void UpdateClock()

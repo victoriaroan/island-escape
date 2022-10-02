@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 1402437965}
   - component: {fileID: 1402437966}
   - component: {fileID: 1402437973}
+  - component: {fileID: 1402437975}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 263955845
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 480965354, guid: a8191dc8f955a73409f0c8b6ee3556c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -158,8 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc4fbb8910d07f94c82c60293b509bea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
   animator: {fileID: 0}
+  canvas: {fileID: 0}
   spriteRenderer: {fileID: 0}
 --- !u!61 &1402437963
 BoxCollider2D:
@@ -174,7 +175,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.03}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -185,7 +186,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.63, y: 0.94}
   m_EdgeRadius: 0
 --- !u!114 &1402437964
 MonoBehaviour:
@@ -199,8 +200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767e42d86ac1e1c4cb291e705c38345e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockingLayer:
+    serializedVersion: 2
+    m_Bits: 16
   walkSpeed: 2
   runSpeed: 4
+  rb: {fileID: 0}
 --- !u!114 &1402437965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,3 +243,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
+--- !u!114 &1402437975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466276511540186353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d24791361dd402245a24ca0f1af40fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableAction: {fileID: 0}

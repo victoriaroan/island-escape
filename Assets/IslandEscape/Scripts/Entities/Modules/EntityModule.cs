@@ -34,11 +34,19 @@ namespace IslandEscape.Entities.Modules
         /// <summary>
         /// Adds an EntityModule class to the list of required modules. Must be called in `Awake` to have any effect.
         /// </summary>
+        /// <typeparam name="T">The type of the required EntityModule class.</typeparam>
+        public void AddRequiredModule<T>() where T : EntityModule
+        {
+            requiredModules.Add(typeof(T));
+        }
+
+        /// <summary>
+        /// Adds an EntityModule class to the list of required modules. Must be called in `Awake` to have any effect.
+        /// </summary>
         /// <param name="requiredModule">The type of the required EntityModule class.</param>
         public void AddRequiredModule(Type requiredModule)
         {
             requiredModules.Add(requiredModule);
         }
-
     }
 }
