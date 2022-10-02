@@ -52,18 +52,21 @@ namespace IslandEscape.Entities.Modules
 
         public void Update()
         {
-            renderModule.SetAnimatorParams(targetVelocity);
         }
 
         public void SetTargetVelocity(Vector2 target)
         {
-            targetVelocity = target;
+            renderModule.SetAnimatorParams(target);
+
+            // magnitude check prevents diagonal movement being too fast (but messes with sprite flipping)
+            targetVelocity = (target.magnitude > 1) ? target.normalized : target;
         }
 
         private void Move()
         {
             if (targetVelocity == Vector2.zero)
                 return;
+
 
             Vector2 delta = targetVelocity * walkSpeed * Time.fixedDeltaTime;
             float magnitude = delta.magnitude;
@@ -81,7 +84,7 @@ namespace IslandEscape.Entities.Modules
                 }
             }
 
-            rb.MovePosition(rb.position + targetVelocity.normalized * magnitude);
+            rb.MovePosition(rb.position + targetVelocity * magnitude);
         }
     }
 }

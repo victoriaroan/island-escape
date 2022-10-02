@@ -34,7 +34,6 @@ namespace IslandEscape.Entities.Modules
 
         private void CheckForMovement()
         {
-            // TODO: fix diagonal movement being too fast (https://forum.unity.com/threads/diagonal-movement-speed-to-fast.271703/)
             Vector2 movement = new Vector2((int)Input.GetAxisRaw("Horizontal"), (int)Input.GetAxisRaw("Vertical"));
             if (movement.x != 0 || movement.y != 0)
             {

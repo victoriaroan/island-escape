@@ -42,6 +42,7 @@ namespace IslandEscape.Entities.Modules.Commands
                 return true;
             }
 
+            // TODO: only set if movement changes? does it really matter?
             Module.GetComponent<MovementModule>().SetTargetVelocity(movement);
             return false;
         }

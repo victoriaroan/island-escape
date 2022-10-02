@@ -7,5 +7,5 @@ using UnityEngine.Events;
 namespace IslandEscape.Entities.Events
 {
     [Serializable]
-    public class Entity : UnityEvent<EntityEventArgs> { }
+    public class EntityEvent : UnityEvent<EntityEventArgs> { }
 }

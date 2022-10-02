@@ -70,6 +70,7 @@ namespace IslandEscape.Entities.Modules
         public void OnTriggerEnter2D(Collider2D other)
         {
             // TODO: cooldowns
+            // TODO: handle overlapping trigger hitboxes
             if (Available)
             {
                 Debug.Log("Trigger enter", other.gameObject);
