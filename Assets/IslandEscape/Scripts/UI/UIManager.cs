@@ -112,7 +112,6 @@ namespace IslandEscape.UI
         /// <returns></returns>
         public GameObject ResourceToolTipAddAtPointer(ResourceStack stack, Vector2 position)
         {
-            Debug.Log(position);
             // TODO: find a better place for this?
             GameObject tooltip = (GameObject)Instantiate(prefabMap[UICompKey.ResourceTooltip]);
 
@@ -124,7 +123,8 @@ namespace IslandEscape.UI
             tooltip.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = stack.blueprint.description;
 
             tooltip.transform.SetParent(transform, false);
-            tooltip.GetComponent<RectTransform>().sizeDelta = position;
+            // TODO: have tooltip follow mouse when it moves around resource display
+            tooltip.transform.position = position;
             tooltip.SetActive(true);
             return tooltip;
         }

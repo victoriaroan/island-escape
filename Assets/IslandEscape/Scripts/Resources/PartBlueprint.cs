@@ -15,9 +15,9 @@ namespace IslandEscape.Resources
         Anchor,
         Ballast,
         Shelter,
-        Accessory,
-        Optional,
         Utility,
+        Optional,
+        Tool,
     }
 
     public enum PartQuality

@@ -15,8 +15,9 @@ MonoBehaviour:
   displayName: Rocks
   icon: {fileID: 1920211433, guid: 786153e7fa1a9dc4396e4df49e5b4a4b, type: 3}
   rarity: 0
+  description: 
   slots:
   - category: 0
     quality: 0
-  - category: 9
-    quality: 1
+  - category: 11
+    quality: 0

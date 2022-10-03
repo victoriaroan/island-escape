@@ -19,3 +19,5 @@ MonoBehaviour:
   slots:
   - category: 11
     quality: 1
+  - category: 9
+    quality: 1

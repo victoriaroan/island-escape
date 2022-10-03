@@ -26,6 +26,7 @@ namespace IslandEscape.Entities.Modules
         public PartBlueprint requiredTool = null; // TODO: be able to require more than one
         public bool consumeTool = false;
         public string missingToolMsg = "You need something to do this";
+        // TODO: show any tool requirement before starting action to avoid sitting through delay just to fail?
 
 
         // TODO: add ability to require item in inventory (like a canvas sack to gather sand)
@@ -63,7 +64,7 @@ namespace IslandEscape.Entities.Modules
                     if (requiredTool != null && consumeTool)
                         inventory.RemoveResource(new ResourceStack(requiredTool, 1));
 
-                    // TODO: remove gameobject?
+                    // TODO: add optional remove gameobject (but then how to still show tooltip?)
 
                     SetToolTip($"Found {blueprint.DisplayName}!", 2.0f);
 

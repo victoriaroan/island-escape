@@ -26,8 +26,10 @@ namespace IslandEscape.Entities.Modules
         public AgentModule interactingAgent;
         public int timesCompleted;
 
-        // TODO: add cooldown to available
+        // TODO: show time and tool requirement in tooltip
+        // TODO: show entity name in tooltip?
         public string Tip { get => (delay > 0 ? "hold" : "press") + " F"; }
+        // TODO: add cooldown to available
         public bool Available { get { return limit == 0 || timesCompleted < limit; } }
         public float InteractionTime
         {

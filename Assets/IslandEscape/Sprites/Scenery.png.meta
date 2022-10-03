@@ -220,7 +220,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -241,7 +241,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -249,6 +249,27 @@ TextureImporter:
       bones: []
       spriteID: 7fb3dc0635e9a314a83484d979aeb924
       internalID: 698338525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Platform
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32e73b22accfe6645b3d43305b4e936f
+      internalID: -420092711
       vertices: []
       indices: 
       edges: []
@@ -267,6 +288,7 @@ TextureImporter:
       Grass1: 751626370
       Driftwood: -708789657
       Bucket: -1247037656
+      Platform: -420092711
       CrateCovered: -930531824
       Sand: 125012506
       BucketCovered: 698338525
