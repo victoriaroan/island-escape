@@ -107,7 +107,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Scenery_0
+      name: Sand
       rect:
         serializedVersion: 2
         x: 15
@@ -128,7 +128,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Scenery_1
+      name: CrateCovered
       rect:
         serializedVersion: 2
         x: 79
@@ -149,7 +149,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Scenery_2
+      name: Grass1
       rect:
         serializedVersion: 2
         x: 144
@@ -170,7 +170,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Scenery_3
+      name: Grass2
       rect:
         serializedVersion: 2
         x: 209
@@ -191,12 +191,33 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Scenery_4
+      name: Driftwood
       rect:
         serializedVersion: 2
         x: 255
         y: 2
         width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8472158b9ae51d748b3e72f465adb64b
+      internalID: -708789657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bucket
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 15
+        width: 32
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -205,8 +226,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8472158b9ae51d748b3e72f465adb64b
-      internalID: -708789657
+      spriteID: 82a9edfcc4ca40e4480c5cc78121fd70
+      internalID: -1247037656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BucketCovered
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 14
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fb3dc0635e9a314a83484d979aeb924
+      internalID: 698338525
       vertices: []
       indices: 
       edges: []
@@ -222,11 +264,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Scenery_2: 751626370
-      Scenery_1: -930531824
-      Scenery_0: 125012506
-      Scenery_4: -708789657
-      Scenery_3: -860769660
+      Grass1: 751626370
+      Driftwood: -708789657
+      Bucket: -1247037656
+      CrateCovered: -930531824
+      Sand: 125012506
+      BucketCovered: 698338525
+      Grass2: -860769660
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 

@@ -39,7 +39,8 @@ namespace IslandEscape.Entities.Modules
         }
 
         protected RenderModule renderModule;
-        protected AgentModule collision;
+        protected AgentModule collision = null;
+        public bool HasAvailableAgent { get => collision != null; }
 
         public virtual void Awake()
         {
@@ -66,10 +67,10 @@ namespace IslandEscape.Entities.Modules
             //     FinishAction();
             // }
 
-            if (interactionStarted > 0f)
+            if (interactionStarted > 0f && delay > 0f)
             {
                 var tip = (int)Math.Floor(InteractionTime) + "s" + (ActionReady ? " READY" : "");
-                renderModule.CanvasSetTooltip(tip);
+                renderModule.CanvasSetToolTip(tip);
             }
         }
 
@@ -101,7 +102,10 @@ namespace IslandEscape.Entities.Modules
                 agent.availableAction = null;
             }
 
-            renderModule.CanvasHide();
+            collision = null;
+
+            if (renderModule.HasToolTip(Tip))
+                renderModule.CanvasHide();
         }
 
         /// <summary>
@@ -148,7 +152,7 @@ namespace IslandEscape.Entities.Modules
                 if (!Available)
                     renderModule.CanvasHide();
                 else
-                    renderModule.CanvasSetTooltip(Tip);
+                    renderModule.CanvasSetToolTip(Tip);
 
                 timesCompleted++;
                 ActionCompleted?.Invoke(new ActionEventArgs(this, interactingAgent));

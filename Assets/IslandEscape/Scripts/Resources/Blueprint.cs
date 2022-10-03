@@ -13,6 +13,9 @@ namespace IslandEscape.Resources
         public Sprite Icon { get { return icon; } }
 
         public float rarity;
+
+        public string description;
+
     }
 
 }

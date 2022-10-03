@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: delay
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8549472365812058676, guid: 4845f9aef9288a848a73410929e6779e, type: 3}
       propertyPath: limit
@@ -147,3 +147,6 @@ MonoBehaviour:
   blueprint: {fileID: 11400000, guid: f03d7729f98b1984eab994d40b08cd2d, type: 2}
   probability: 0.5
   failureMsg: The wood is too rotted
+  requiredTool: {fileID: 0}
+  consumeTool: 0
+  missingToolMsg: You need something to do this

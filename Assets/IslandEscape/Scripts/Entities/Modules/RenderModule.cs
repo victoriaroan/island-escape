@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace IslandEscape.Entities.Modules
         private float tooltipSet = 0f;
         private float clearTooltip = -1f;
         private string replacementTip = null;
+        private Func<bool> replacementCondition = null;
 
         public virtual void Awake()
         {
@@ -28,8 +30,8 @@ namespace IslandEscape.Entities.Modules
         {
             if (clearTooltip > 0f && Time.timeSinceLevelLoad - tooltipSet >= clearTooltip)
             {
-                if (replacementTip != null)
-                    CanvasSetTooltip(replacementTip);
+                if (replacementTip != null && (replacementCondition == null || replacementCondition()))
+                    CanvasSetToolTip(replacementTip);
                 else
                     Destroy(tooltip);
 
@@ -45,6 +47,11 @@ namespace IslandEscape.Entities.Modules
             animator.SetFloat("Horizontal", movement.x);
             animator.SetFloat("Vertical", movement.y);
             animator.SetFloat("Magnitude", movement.magnitude);
+        }
+
+        public bool HasToolTip(string msg)
+        {
+            return tooltip != null && tooltip.GetComponentInChildren<TextMeshProUGUI>().text == msg;
         }
 
         // TODO: should UI stuff be in a separate UIModule?
@@ -86,7 +93,7 @@ namespace IslandEscape.Entities.Modules
         /// Set the text of the tooltip
         /// </summary>
         /// <param name="tip"></param>
-        public void CanvasSetTooltip(string tip)
+        public void CanvasSetToolTip(string tip)
         {
             if (tooltip == null)
             {
@@ -102,9 +109,9 @@ namespace IslandEscape.Entities.Modules
         /// Set the text of the tooltip to a temporary value, with no replacement value
         /// </summary>
         /// <param name="tip"></param>
-        public void CanvasSetTempTooltip(string tip, float clearAfter)
+        public void CanvasSetTempToolTip(string tip, float clearAfter)
         {
-            CanvasSetTooltip(tip);
+            CanvasSetToolTip(tip);
             tooltipSet = Time.timeSinceLevelLoad;
             clearTooltip = clearAfter;
             replacementTip = null;
@@ -114,12 +121,24 @@ namespace IslandEscape.Entities.Modules
         /// Set the text of the tooltip to a temporary value, with a replacement value
         /// </summary>
         /// <param name="tip"></param>
-        public void CanvasSetTempTooltip(string tip, float clearAfter, string replace)
+        public void CanvasSetTempToolTip(string tip, float clearAfter, string replace)
         {
-            CanvasSetTooltip(tip);
+            CanvasSetTempToolTip(tip, clearAfter);
+            replacementTip = replace;
+        }
+
+        /// <summary>
+        /// Set the text of the tooltip to a temporary value, with a replacement value that is only
+        /// used if the given condition evaluates to true at time of replacement.
+        /// </summary>
+        /// <param name="tip"></param>
+        public void CanvasSetTempToolTip(string tip, float clearAfter, string replace, Func<bool> condition)
+        {
+            CanvasSetToolTip(tip);
             tooltipSet = Time.timeSinceLevelLoad;
             clearTooltip = clearAfter;
             replacementTip = replace;
+            replacementCondition = condition;
         }
 
         /// <summary>

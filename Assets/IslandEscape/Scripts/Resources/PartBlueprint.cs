@@ -17,6 +17,7 @@ namespace IslandEscape.Resources
         Shelter,
         Accessory,
         Optional,
+        Utility,
     }
 
     public enum PartQuality

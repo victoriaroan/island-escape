@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1402437966}
   - component: {fileID: 1402437973}
   - component: {fileID: 1402437975}
+  - component: {fileID: 1402437976}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -106,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1920ad09bfa9a4c89d4679d70ccba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryGrid: {fileID: 0}
 --- !u!50 &8681197191424524194
 Rigidbody2D:
   serializedVersion: 4
@@ -257,3 +259,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   availableAction: {fileID: 0}
+--- !u!114 &1402437976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466276511540186353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71038345e745a24f8436d0ea0e16ddd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory:
+    InventoryChanged:
+      m_PersistentCalls:
+        m_Calls: []
+    slots: []

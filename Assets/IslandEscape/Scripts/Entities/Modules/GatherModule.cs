@@ -7,11 +7,28 @@ using IslandEscape.Resources;
 
 namespace IslandEscape.Entities.Modules
 {
+    // [System.Serializable]
+    // public class GatherOption
+    // {
+
+    //     // TODO: weighted gather
+    //     public float weight = 20;
+    // }
+
     public class GatherModule : EntityModule
     {
+        // TODO: multiple options, weighted gather
+        // public GatherOption[] options;
+
         public PartBlueprint blueprint;
         public float probability = 1.0f;
         public string failureMsg = "Unable to find salvageable parts";
+        public PartBlueprint requiredTool = null; // TODO: be able to require more than one
+        public bool consumeTool = false;
+        public string missingToolMsg = "You need something to do this";
+
+
+        // TODO: add ability to require item in inventory (like a canvas sack to gather sand)
 
         private ActionModule actionModule;
         private RenderModule renderModule;
@@ -29,28 +46,39 @@ namespace IslandEscape.Entities.Modules
 
         public void Gather(ActionEventArgs args)
         {
-            if (Random.value < probability)
+            Inventory inventory = args.agent.GetComponent<InventoryModule>().inventory;
+
+            if (requiredTool != null && !inventory.Contains(new ResourceStack(requiredTool, 1)))
             {
-                // successful gather
-                // TODO: make sure agent has inventorymodule. don't really think that's necessary in this case...
-                args.agent.GetComponent<InventoryModule>().inventory.AddResource(new ResourceStack(blueprint, 1));
-
-                // TODO: remove gameobject?
-
-                var tip = $"Found {blueprint.DisplayName}!";
-                if (actionModule.Available)
-                    renderModule.CanvasSetTempTooltip(tip, 2.0f, actionModule.Tip);
-                else
-                    renderModule.CanvasSetTempTooltip(tip, 2.0f);
+                actionModule.timesCompleted--; // TODO: make this configurable?
+                SetToolTip(missingToolMsg, 2.0f);
             }
             else
             {
-                // failed gather
-                if (actionModule.Available)
-                    renderModule.CanvasSetTempTooltip(failureMsg, 2.0f, actionModule.Tip);
+                if (Random.value < probability)
+                {
+                    // successful gather
+                    // TODO: make sure agent has inventorymodule? don't really think that's necessary in this case...
+                    inventory.AddResource(new ResourceStack(blueprint, 1));
+                    if (requiredTool != null && consumeTool)
+                        inventory.RemoveResource(new ResourceStack(requiredTool, 1));
+
+                    // TODO: remove gameobject?
+
+                    SetToolTip($"Found {blueprint.DisplayName}!", 2.0f);
+
+                }
                 else
-                    renderModule.CanvasSetTempTooltip(failureMsg, 2.0f);
+                {
+                    // failed gather
+                    SetToolTip(failureMsg, 2.0f);
+                }
             }
+        }
+
+        private void SetToolTip(string msg, float time)
+        {
+            renderModule.CanvasSetTempToolTip(msg, time, actionModule.Tip, () => { return actionModule.Available && actionModule.HasAvailableAgent; });
         }
     }
 }

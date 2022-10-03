@@ -1,17 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 using IslandEscape.Entities;
 using IslandEscape.Entities.Modules;
+using IslandEscape.Resources;
 
 namespace IslandEscape.UI
 {
     public enum UICompKey
     {
         Tooltip,
+        ResourceTooltip,
         EntityUICanvas,
     }
 
@@ -62,6 +66,8 @@ namespace IslandEscape.UI
             }
         }
 
+        /// TODO add a ToolTip ui component
+
         /// <summary>
         /// Base tooltip initialization.
         /// </summary>
@@ -99,12 +105,37 @@ namespace IslandEscape.UI
         }
 
         /// <summary>
+        /// Adds a resource tooltip at the given location
+        /// </summary>
+        /// <param name="stack"></param>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public GameObject ResourceToolTipAddAtPointer(ResourceStack stack, Vector2 position)
+        {
+            Debug.Log(position);
+            // TODO: find a better place for this?
+            GameObject tooltip = (GameObject)Instantiate(prefabMap[UICompKey.ResourceTooltip]);
+
+            tooltip.transform.Find("Image").GetComponent<Image>().sprite = stack.blueprint.icon;
+            tooltip.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = stack.blueprint.DisplayName;
+            tooltip.transform.Find("Slots").GetComponent<TextMeshProUGUI>().text = String.Join(
+                ", ", ((PartBlueprint)stack.blueprint).slots.Select(x => x.category.ToString())
+            );
+            tooltip.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = stack.blueprint.description;
+
+            tooltip.transform.SetParent(transform, false);
+            tooltip.GetComponent<RectTransform>().sizeDelta = position;
+            tooltip.SetActive(true);
+            return tooltip;
+        }
+
+        /// <summary>
         /// Destroy the given tooltip.
         /// </summary>
         /// <param name="tooltip"></param>
         public void ToolTipRemove(GameObject tooltip)
         {
-
+            Destroy(tooltip);
         }
 
         private void UpdateClock()

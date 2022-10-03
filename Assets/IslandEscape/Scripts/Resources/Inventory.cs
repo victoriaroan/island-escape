@@ -17,7 +17,7 @@ namespace IslandEscape.Resources
     [System.Serializable]
     public class Inventory
     {
-        public InventoryEvent InventoryChanged;
+        public InventoryEvent InventoryChanged = new InventoryEvent();
 
         // infinite inventory
         public List<ResourceStack> slots;
@@ -56,7 +56,17 @@ namespace IslandEscape.Resources
             }
 
             existing.count -= stack.count;
+            if (existing.count == 0)
+            {
+                slots.Remove(existing);
+            }
             InventoryChanged?.Invoke(new InventoryEventArgs(this, InventoryAction.Remove, stack));
+        }
+
+        public bool Contains(ResourceStack stack)
+        {
+            ResourceStack existing = slots.FirstOrDefault(x => x.blueprint == stack.blueprint);
+            return existing != null && existing.count >= stack.count;
         }
     }
 }

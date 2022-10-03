@@ -14,6 +14,8 @@ namespace IslandEscape.Resources
         public Blueprint blueprint;
         public int count;
 
+        public bool IsSet { get => blueprint != null; }
+
         public ResourceStack() { }
 
         public ResourceStack(Blueprint blueprint, int count)
