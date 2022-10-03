@@ -21,21 +21,56 @@ namespace IslandEscape.Map
 
         public int SizeOfNextRise { get { return (int)Math.Floor(rateOfRise); } }
         public int TimeToNextRise { get { return (int)Math.Abs(Math.Round(Time.timeSinceLevelLoad - lastRise - RISE_INTERVAL)); } }
+        public bool WaterRising { get => levelsToRise > 0; }
 
         public Tile waterTile;
         public Tilemap terrain;
 
         private Tilemap tilemap;
+        private List<Vector3Int> lastFlooded;
 
-        void Awake()
+        private int levelsToRise = 0;
+
+        public void Awake()
         {
             lastRise = Time.timeSinceLevelLoad;
             tilemap = GetComponent<Tilemap>();
         }
 
-        void Update()
+        public void Start()
         {
-            if (Time.timeSinceLevelLoad - lastRise >= RISE_INTERVAL)
+            // get a starting list of all island tiles that are adjacent to water
+            // these will be the first tiles to flood, but we're just using it as a way of getting
+            // the boundaries of the water against the island.
+            List<Vector3Int> terrainEdge = new List<Vector3Int>();
+            foreach (var position in terrain.cellBounds.allPositionsWithin)
+            {
+                if (TileAdjacentToWater(position) && !tilemap.HasTile(position))
+                    terrainEdge.Add(position);
+            }
+
+            // Get that list of the water tiles adjacent to those island tiles
+            // we'll use this to figure out which tiles to flood, and keep it up to date as a list
+            // of the last tiles flooded.
+            lastFlooded = new List<Vector3Int>();
+            foreach (var position in terrainEdge)
+            {
+                // TODO: don't add dupes
+                lastFlooded.AddRange(GetAdjacentWater(position));
+            }
+        }
+
+        public void Update()
+        {
+            // TODO: what if it takes more than 10 seconds to rise all levels? Doubt that would ever happen, but who knows
+            if (!WaterRising && Time.timeSinceLevelLoad - lastRise >= RISE_INTERVAL)
+            {
+                levelsToRise = SizeOfNextRise;
+                rateOfRise += rateOfRise * rateMultiplier;
+            }
+
+            // only rise one level at a time
+            if (WaterRising)
             {
                 RaiseWaterLevel();
             }
@@ -43,43 +78,39 @@ namespace IslandEscape.Map
 
         public void RaiseWaterLevel()
         {
-            // TODO: add some sort of perceptible buildup/delay (while freezing TimeToNextRise count)?
+            // TODO: add some sort of perceptible buildup/delay?
             Debug.Log("raising water level");
 
+            // keep track of flooded tiles to reset lastFlooded
             List<Vector3Int> flood = new List<Vector3Int>();
 
-            // this is probably gonna start getting pretty laggy the more loops we have to make (already pretty laggy)
-            // TODO: figure out how to do the calculations in the background before it's time to raise the water level.
-
-            foreach (int i in Enumerable.Range(1, SizeOfNextRise))
+            // loop over each of the last flooded tiles, find adjacent empty tiles, add water.
+            foreach (var position in lastFlooded)
             {
-                // TODO: use last set of flooding tiles as starting position so we don't have to loop the entire island every time.
-                foreach (var position in terrain.cellBounds.allPositionsWithin)
+                foreach (var empty in GetAdjacentEmpty(position))
                 {
-                    // Debug.Log(position);
-                    // Debug.Log(tilemap.HasTile(position));
-                    if (TileAdjacentToWater(position) && !tilemap.HasTile(position))
-                    {
-                        flood.Add(position);
-                    }
-                }
-
-                foreach (var position in flood)
-                {
-                    tilemap.SetTile(position, waterTile);
+                    tilemap.SetTile(empty, waterTile);
+                    flood.Add(empty);
                 }
             }
 
             // TODO: deal with player being in a flooding tile. (oo maybe could use OnTriggerEnter2D)
 
-            lastRise = Time.timeSinceLevelLoad;
+            lastFlooded = flood;
+            // TODO: do we really need a list of the tiles that rose in the event?
+            // although I think I did the TerrainEventArgs like that so it could be useable for other things (like,
+            // I dunno, if for some reason we add fire mechanics and want to catch terrain tiles on fire? lol)
             WaterRose?.Invoke(new TerrainEventArgs(this, flood));
 
-            waterLevel += SizeOfNextRise;
-            rateOfRise += rateOfRise * rateMultiplier;
+            waterLevel++;
+            levelsToRise--;
+            if (levelsToRise == 0)
+            {
+                lastRise = Time.timeSinceLevelLoad;
+            }
         }
 
-        public bool TileAdjacentToWater(Vector3Int position)
+        private bool TileAdjacentToWater(Vector3Int position)
         {
             bool adjacent = false;
             for (int i = -1; i <= 1; i++)
@@ -97,6 +128,51 @@ namespace IslandEscape.Map
                 }
             }
             return adjacent;
+        }
+
+        /// <summary>
+        /// Helper function that gets tiles adjacent to the given position that match the supplied condition.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="condition"></param>
+        /// <returns></returns>
+        private List<Vector3Int> GetAdjacent(Vector3Int position, Func<Vector3Int, bool> condition)
+        {
+            List<Vector3Int> selected = new List<Vector3Int>();
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; j <= 1; j++)
+                {
+                    // don't care about current position
+                    if (i == 0 && j == 0)
+                        continue;
+
+                    var tmpPos = new Vector3Int(position.x + i, position.y + j, position.z);
+                    if (condition(tmpPos))
+                        selected.Add(tmpPos);
+                }
+            }
+            return selected;
+        }
+
+        /// <summary>
+        /// Get adjacent tiles with water in them.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        private List<Vector3Int> GetAdjacentWater(Vector3Int position)
+        {
+            return GetAdjacent(position, (pos) => { return tilemap.HasTile(pos); });
+        }
+
+        /// <summary>
+        /// Get adjacent empty tiles.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        private List<Vector3Int> GetAdjacentEmpty(Vector3Int position)
+        {
+            return GetAdjacent(position, (pos) => { return !tilemap.HasTile(pos); });
         }
     }
 }

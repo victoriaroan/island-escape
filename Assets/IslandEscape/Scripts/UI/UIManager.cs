@@ -158,7 +158,10 @@ namespace IslandEscape.UI
         private void UpdateTimer()
         {
             var waterMgr = GameManager.instance.waterManager;
-            timer.text = "Water Rises " + waterMgr.SizeOfNextRise + " tiles in " + waterMgr.TimeToNextRise + "s";
+            if (waterMgr.WaterRising)
+                timer.text = "Water Rising!";
+            else
+                timer.text = "Water Rises " + waterMgr.SizeOfNextRise + " tiles in " + waterMgr.TimeToNextRise + "s";
         }
     }
 }
