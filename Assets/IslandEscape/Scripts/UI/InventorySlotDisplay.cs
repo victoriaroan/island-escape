@@ -13,11 +13,11 @@ namespace IslandEscape.UI
     // TODO: do we need PassthroughTrigger? guess we can just pass through events as necessary. EventTrigger is obsolete anyway
     public class InventorySlotDisplay : UIComponent, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public Color32 normalColor = new Color32(0, 0, 0, 100);
-        public Color32 highlightedColor = new Color32(255, 255, 255, 100);
-        public Color32 selectedColor = new Color32(255, 255, 255, 140);
-        public Color32 unavailableSpriteColor = new Color32(255, 255, 255, 75);
-        public Color32 availableSpriteColor = new Color32(255, 255, 255, 255);
+        public Color normalColor = new Color(0, 0, 0, 100);
+        public Color highlightedColor = new Color(255, 255, 255, 100);
+        public Color selectedColor = new Color(255, 255, 255, 140);
+        public Color unavailableSpriteColor = new Color(255, 255, 255, 75);
+        public Color availableSpriteColor = new Color(255, 255, 255, 255);
 
         public ResourceStack stack;
         public bool isSelected;
@@ -60,7 +60,7 @@ namespace IslandEscape.UI
             RemoveHighlight();
 
             stack = newStack;
-            imagePanel.GetComponent<Image>().sprite = stack.blueprint.icon;
+            imagePanel.GetComponent<Image>().sprite = stack.blueprint.sprite;
             imagePanel.GetComponent<RectTransform>().sizeDelta = new Vector2(parentGrid.slotSize.x, parentGrid.slotSize.y);
 
             float compHeight = parentGrid.slotSize.y * 0.25f;

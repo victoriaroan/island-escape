@@ -8,11 +8,14 @@ namespace IslandEscape.Entities.Modules
 {
     public class InventoryModule : EntityModule
     {
-        public Inventory inventory;
+        public int inventoryLimit;
+
+        private Inventory inventory;
+        public Inventory Inventory { get => inventory; }
 
         public void Awake()
         {
-            inventory = new Inventory();
+            inventory = new Inventory(inventoryLimit);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace IslandEscape.Resources
     }
 
     [System.Serializable]
-    public struct PartSlot
+    public class PartSlot
     {
         public PartCategory category;
         public PartQuality quality;

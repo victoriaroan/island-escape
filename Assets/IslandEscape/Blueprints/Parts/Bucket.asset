@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bucket
   m_EditorClassIdentifier: 
   displayName: Bucket
-  icon: {fileID: -1247037656, guid: fb22b500093c6c8439966bd04305a7c9, type: 3}
+  sprite: {fileID: -1247037656, guid: fb22b500093c6c8439966bd04305a7c9, type: 3}
   rarity: 0
   description: This could be helpful for carrying something...
   slots:

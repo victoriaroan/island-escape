@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Winch
   m_EditorClassIdentifier: 
   displayName: Winch
-  icon: {fileID: 1920211433, guid: 786153e7fa1a9dc4396e4df49e5b4a4b, type: 3}
+  sprite: {fileID: 1920211433, guid: 786153e7fa1a9dc4396e4df49e5b4a4b, type: 3}
   rarity: 0
   description: 
   slots:

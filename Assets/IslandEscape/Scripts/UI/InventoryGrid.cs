@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -17,7 +18,8 @@ namespace IslandEscape.UI
         public bool enableDropping = false;
         public bool enableHighlight = true;
 
-        public EventTrigger.TriggerEvent onClickStack;
+        // TODO fix these
+        public UnityEvent<PointerEventData> onClickStack = new UnityEvent<PointerEventData>();
         public EventTrigger.TriggerEvent onDragStack;
         public EventTrigger.TriggerEvent onDropStack;
 
@@ -26,6 +28,9 @@ namespace IslandEscape.UI
         public List<InventorySlot> slots;
         public Inventory inventory;
         public Vector2 slotSize;
+        // TODO: generic filtering
+        private PartCategory? filter = null;
+        public PartCategory? Filter { get => filter; set { filter = value; ResetSlots(); } }
 
         private GridLayoutGroup gridLayout;
         private GameObject slotImage;
@@ -43,8 +48,6 @@ namespace IslandEscape.UI
         public void Set(Inventory inv)
         {
             // remove any existing gameobjects and unregister current inventory
-            foreach (InventorySlot slot in slots)
-                Destroy(slot.gameObject);
             UnregisterInventory();
 
             // adjust UI sizes
@@ -57,10 +60,14 @@ namespace IslandEscape.UI
 
         private void ResetSlots()
         {
+            foreach (InventorySlot slot in slots)
+                Destroy(slot.gameObject);
 
             slots = new List<InventorySlot>();
-            // TODO: update this for a list (was written for array)
-            foreach (ResourceStack stack in inventory.slots)
+            // TODO: update this for a list? (was written for array)
+            Debug.Log(filter);
+            var filteredInv = (filter == null) ? inventory.slots : inventory.Filter(filter);
+            foreach (ResourceStack stack in filteredInv)
             {
                 AddSlot(stack);
             }
@@ -95,9 +102,6 @@ namespace IslandEscape.UI
             //     slots[i].UpdateSlot();
 
             // just gonna recreate the whole thing for simplicity
-            foreach (InventorySlot slot in slots)
-                Destroy(slot.gameObject);
-
             ResetSlots();
         }
 

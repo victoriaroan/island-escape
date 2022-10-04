@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: LifeJacket
   m_EditorClassIdentifier: 
   displayName: Life Jacket
-  icon: {fileID: 1920211433, guid: 786153e7fa1a9dc4396e4df49e5b4a4b, type: 3}
+  sprite: {fileID: 1920211433, guid: 786153e7fa1a9dc4396e4df49e5b4a4b, type: 3}
   rarity: 0
+  description: 
   slots:
   - category: 10
     quality: 1

@@ -61,7 +61,7 @@ namespace IslandEscape.Entities.Modules
         /// </summary>
         private void CanvasInit()
         {
-            canvas = (GameObject)Instantiate(GameManager.instance.ui.prefabMap[UICompKey.EntityUICanvas]);
+            canvas = (GameObject)Instantiate(GameManager.instance.ui.componentMap[UICompKey.EntityUICanvas]);
             canvas.transform.SetParent(transform, false);
             canvas.transform.localPosition = new Vector3(0f, 0.5f, 0f);
         }

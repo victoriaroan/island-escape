@@ -17,10 +17,11 @@ namespace IslandEscape.UI
         Tooltip,
         ResourceTooltip,
         EntityUICanvas,
+        Window,
     }
 
     [Serializable]
-    public struct KeyedPrefab
+    public struct ComponentPrefab
     {
         public UICompKey key;
         public GameObject prefab;
@@ -30,13 +31,18 @@ namespace IslandEscape.UI
     {
         public static UIManager instance = null;
 
-        public KeyedPrefab[] prefabs;
-        public Dictionary<UICompKey, GameObject> prefabMap;
+        // these probably don't need to be separate, but it feels cleaner...
+        // TODO: make these auto-loaded registries instead?
+        public ComponentPrefab[] components;
+        public Dictionary<UICompKey, GameObject> componentMap;
+        public WindowPrefab[] windows;
+        public Dictionary<WindowType, GameObject> windowMap;
 
         // existing UI components
         public TextMeshProUGUI clock;
         public TextMeshProUGUI timer;
         public GameObject tooltipBar;
+        public GameObject windowPanel;
 
         public void Awake()
         {
@@ -50,10 +56,16 @@ namespace IslandEscape.UI
 
         public void Start()
         {
-            prefabMap = new Dictionary<UICompKey, GameObject>();
-            foreach (KeyedPrefab prefab in prefabs)
+            componentMap = new Dictionary<UICompKey, GameObject>();
+            foreach (ComponentPrefab prefab in components)
             {
-                prefabMap.Add(prefab.key, prefab.prefab);
+                componentMap.Add(prefab.key, prefab.prefab);
+            }
+
+            windowMap = new Dictionary<WindowType, GameObject>();
+            foreach (WindowPrefab prefab in windows)
+            {
+                windowMap.Add(prefab.type, prefab.prefab);
             }
         }
 
@@ -66,7 +78,21 @@ namespace IslandEscape.UI
             }
         }
 
-        /// TODO add a ToolTip ui component
+
+        public GameObject OpenWindow(WindowType type, GameObject source)
+        {
+            GameObject newWindow = (GameObject)Instantiate(windowMap[type]);
+            newWindow.transform.SetParent(windowPanel.transform, false);
+            newWindow.GetComponent<Window>().source = source;
+            newWindow.SetActive(true);
+            return newWindow;
+        }
+
+        public void CloseWindow(GameObject window)
+        {
+            Destroy(window);
+        }
+
 
         /// <summary>
         /// Base tooltip initialization.
@@ -75,7 +101,7 @@ namespace IslandEscape.UI
         /// <returns></returns>
         private GameObject TooltipInit(string text)
         {
-            GameObject tooltip = (GameObject)Instantiate(prefabMap[UICompKey.Tooltip]);
+            GameObject tooltip = (GameObject)Instantiate(componentMap[UICompKey.Tooltip]);
             tooltip.GetComponentInChildren<TextMeshProUGUI>().text = text;
             return tooltip;
         }
@@ -113,9 +139,9 @@ namespace IslandEscape.UI
         public GameObject ResourceToolTipAddAtPointer(ResourceStack stack, Vector2 position)
         {
             // TODO: find a better place for this?
-            GameObject tooltip = (GameObject)Instantiate(prefabMap[UICompKey.ResourceTooltip]);
+            GameObject tooltip = (GameObject)Instantiate(componentMap[UICompKey.ResourceTooltip]);
 
-            tooltip.transform.Find("Image").GetComponent<Image>().sprite = stack.blueprint.icon;
+            tooltip.transform.Find("Image").GetComponent<Image>().sprite = stack.blueprint.sprite;
             tooltip.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = stack.blueprint.DisplayName;
             tooltip.transform.Find("Slots").GetComponent<TextMeshProUGUI>().text = String.Join(
                 ", ", ((PartBlueprint)stack.blueprint).slots.Select(x => x.category.ToString())

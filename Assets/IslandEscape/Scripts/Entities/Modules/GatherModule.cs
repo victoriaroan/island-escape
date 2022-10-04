@@ -47,7 +47,7 @@ namespace IslandEscape.Entities.Modules
 
         public void Gather(ActionEventArgs args)
         {
-            Inventory inventory = args.agent.GetComponent<InventoryModule>().inventory;
+            Inventory inventory = args.agent.GetComponent<InventoryModule>().Inventory;
 
             if (requiredTool != null && !inventory.Contains(new ResourceStack(requiredTool, 1)))
             {

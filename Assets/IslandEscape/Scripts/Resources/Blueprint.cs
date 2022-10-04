@@ -9,8 +9,8 @@ namespace IslandEscape.Resources
         public string displayName;
         public virtual string DisplayName { get { return displayName == "" ? name : displayName; } }
 
-        public Sprite icon;
-        public Sprite Icon { get { return icon; } }
+        public Sprite sprite;
+        public Sprite Sprite { get { return sprite; } }
 
         public float rarity;
 

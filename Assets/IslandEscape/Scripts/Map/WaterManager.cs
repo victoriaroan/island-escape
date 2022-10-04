@@ -94,7 +94,7 @@ namespace IslandEscape.Map
                 }
             }
 
-            // TODO: deal with player being in a flooding tile. (oo maybe could use OnTriggerEnter2D)
+            // TODO: deal with player being in a flooding tile. (oo maybe could use OnTriggerEnter2D -- that currently does't detect water from the player's end or vice versa)
 
             lastFlooded = flood;
             // TODO: do we really need a list of the tiles that rose in the event?

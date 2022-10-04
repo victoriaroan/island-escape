@@ -10,7 +10,7 @@ namespace IslandEscape.Entities
     public class Player : Entity
     {
         public InventoryGrid inventoryGrid;
-        InventoryModule inventoryModule;
+        public InventoryModule inventoryModule;
 
 
         public void Awake()
@@ -20,7 +20,7 @@ namespace IslandEscape.Entities
 
         public void Start()
         {
-            inventoryGrid.Set(inventoryModule.inventory);
+            inventoryGrid.Set(inventoryModule.Inventory);
         }
     }
 }

@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Fiberglass
   m_EditorClassIdentifier: 
   displayName: Fiberglass
-  icon: {fileID: 1920211433, guid: 786153e7fa1a9dc4396e4df49e5b4a4b, type: 3}
+  sprite: {fileID: 1920211433, guid: 786153e7fa1a9dc4396e4df49e5b4a4b, type: 3}
   rarity: 0
+  description: 
   slots:
   - category: 4
     quality: 3
